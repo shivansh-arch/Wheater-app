@@ -1,0 +1,13 @@
+{
+  "name": "weatherapp",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^x.x.x",
+    "express": "^x.x.x",
+    "mongoose": "^8.15.1"
+  }
+}
