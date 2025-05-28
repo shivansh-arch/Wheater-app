@@ -5,10 +5,11 @@
   <title>Weather Hub - Live & Forecast</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    /* Your CSS remains unchanged */
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #eef2f7; /* Lighter blue-gray background */
-      color: #3a3f47; /* Darker text for better readability */
+      background-color: #eef2f7;
+      color: #3a3f47;
       margin: 0;
       padding: 20px;
       display: flex;
@@ -18,15 +19,15 @@
     }
     .app-container {
       background-color: #ffffff;
-      padding: 25px 35px; /* Slightly more padding */
-      border-radius: 16px; /* More rounded corners */
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, more spread shadow */
+      padding: 25px 35px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
       width: 100%;
-      max-width: 600px; /* Wider for more content */
+      max-width: 600px;
     }
     h1 {
       text-align: center;
-      color: #1a73e8; /* Google Blue */
+      color: #1a73e8;
       margin-bottom: 30px;
       font-size: 2em;
     }
@@ -36,30 +37,30 @@
     label {
       display: block;
       margin-bottom: 6px;
-      font-weight: 600; /* Bolder labels */
-      color: #4a5568; /* Medium gray for labels */
+      font-weight: 600;
+      color: #4a5568;
     }
     input[type="number"] {
-      width: calc(100% - 24px); 
-      padding: 12px; /* More padding in input */
-      border: 1px solid #cbd5e0; /* Softer border */
-      border-radius: 8px; /* More rounded input fields */
+      width: calc(100% - 24px);
+      padding: 12px;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
       font-size: 16px;
       transition: border-color 0.3s, box-shadow 0.3s;
     }
     input[type="number"]:focus {
       border-color: #1a73e8;
-      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2); /* Focus ring */
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
       outline: none;
     }
     button[type="submit"] {
       background-color: #1a73e8;
       color: white;
-      padding: 14px 20px; /* Larger button */
+      padding: 14px 20px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 17px; /* Slightly larger font */
+      font-size: 17px;
       font-weight: 600;
       width: 100%;
       transition: background-color 0.2s, transform 0.1s;
@@ -79,12 +80,12 @@
       font-size: 0.95em;
     }
     .loading {
-      background-color: #e3f2fd; /* Lighter blue for loading */
+      background-color: #e3f2fd;
       border: 1px solid #90caf9;
       color: #1565c0;
     }
     .error {
-      background-color: #ffebee; /* Lighter red for error */
+      background-color: #ffebee;
       border: 1px solid #ef9a9a;
       color: #c62828;
     }
@@ -93,16 +94,16 @@
     }
     .location-info h2 {
         text-align:center;
-        color: #207dda; /* Darker blue for location */
+        color: #207dda;
         font-size: 1.6em;
         margin-bottom: 20px;
     }
     .current-weather, .forecast {
-      background-color: #f8fafc; /* Very light gray for sections */
+      background-color: #f8fafc;
       padding: 20px;
-      border-radius: 12px; /* More rounded sections */
+      border-radius: 12px;
       margin-bottom: 25px;
-      border: 1px solid #e2e8f0; /* Softer border */
+      border: 1px solid #e2e8f0;
     }
     .current-weather h3, .forecast h3 {
       margin-top: 0;
@@ -117,7 +118,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 0;
-      border-bottom: 1px solid #edf2f7; /* Lighter dashed border */
+      border-bottom: 1px solid #edf2f7;
       font-size: 0.95em;
     }
     .weather-item:last-child {
@@ -128,18 +129,18 @@
       margin-right: 10px;
     }
     .weather-item span {
-      color: #2d3748; /* Darker value text */
+      color: #2d3748;
       text-align: right;
     }
     .forecast-days-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive columns */
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 15px;
     }
     .forecast-day {
       padding: 15px;
       border-radius:10px;
-      background-color: #ffffff; /* White background for forecast cards */
+      background-color: #ffffff;
       border: 1px solid #e2e8f0;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
@@ -206,88 +207,52 @@
       return weatherCodes[code] || 'Condition unavailable';
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const weatherForm = document.getElementById('weatherForm');
-      const feedbackDiv = document.getElementById('feedback');
-      const weatherDisplayDiv = document.getElementById('weatherDisplay');
-      const placeNameDiv = document.getElementById('placeName');
-      const currentWeatherDetailsDiv = document.getElementById('currentWeatherDetails');
-      const forecastDetailsDiv = document.getElementById('forecastDetails');
+    document.getElementById('weatherForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const lat = document.getElementById('lat').value;
+      const lon = document.getElementById('lon').value;
+      const feedback = document.getElementById('feedback');
+      const weatherDisplay = document.getElementById('weatherDisplay');
+      const placeName = document.getElementById('placeName');
+      const currentWeatherDetails = document.getElementById('currentWeatherDetails');
+      const forecastDetails = document.getElementById('forecastDetails');
 
-      weatherForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        feedbackDiv.style.display = 'block';
-        feedbackDiv.className = 'feedback loading';
-        feedbackDiv.textContent = 'Fetching weather and location data...';
-        weatherDisplayDiv.style.display = 'none';
+      feedback.style.display = 'block';
+      feedback.className = 'feedback loading';
+      feedback.textContent = 'Fetching weather and location data...';
+      weatherDisplay.style.display = 'none';
 
-        const lat = document.getElementById('lat').value;
-        const lon = document.getElementById('lon').value;
+      try {
+        const response = await fetch(`/weather?lat=${lat}&lon=${lon}`);
+        const data = await response.json();
 
-        try {
-          const apiUrl = `/weather?lat=${lat}&lon=${lon}`; // Relative URL to your backend
-          const res = await fetch(apiUrl);
-          const data = await res.json();
-
-          if (!res.ok) {
-            // If server returns an error (like 400, 500), data might contain an 'error' field
-            throw new Error(data.error || `HTTP error! Status: ${response.status}`);
-          }
-
-          feedbackDiv.style.display = 'none';
-          weatherDisplayDiv.style.display = 'block';
-
-          // Display Place Name
-          placeNameDiv.textContent = (data.location && data.location.name) ? data.location.name : 'Location data unavailable';
-
-          // Display Current Weather (with checks for data existence)
-          const current = data.currentWeather;
-          const currentUnits = data.currentWeatherUnits;
-          if (current && currentUnits) {
-            currentWeatherDetailsDiv.innerHTML = `
-              <div class="weather-item"><strong>Temperature:</strong> <span>${current.temperature_2m ?? 'N/A'}${currentUnits.temperature_2m ?? ''}</span></div>
-              <div class="weather-item"><strong>Feels Like:</strong> <span>${current.apparent_temperature ?? 'N/A'}${currentUnits.apparent_temperature ?? ''}</span></div>
-              <div class="weather-item"><strong>Humidity:</strong> <span>${current.relative_humidity_2m ?? 'N/A'}${currentUnits.relative_humidity_2m ?? ''}</span></div>
-              <div class="weather-item"><strong>Wind Speed:</strong> <span>${current.wind_speed_10m ?? 'N/A'}${currentUnits.wind_speed_10m ?? ''}</span></div>
-              <div class="weather-item"><strong>Condition:</strong> <span>${getWeatherDescription(current.weather_code)}</span></div>
-            `;
-          } else {
-            currentWeatherDetailsDiv.innerHTML = '<p>Current weather data not available.</p>';
-          }
-          
-          // Display 2-Day Forecast (with checks for data existence)
-          const daily = data.dailyForecast;
-          const dailyUnits = data.dailyForecastUnits;
-          forecastDetailsDiv.innerHTML = ''; 
-
-          if (daily && daily.time && daily.time.length > 0) {
-            // Backend should already provide only 2 days in dailyForecast.time
-            for (let i = 0; i < daily.time.length; i++) { 
-              const dayDiv = document.createElement('div');
-              dayDiv.className = 'forecast-day';
-              dayDiv.innerHTML = `
-                <p class="date">${new Date(daily.time[i]).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</p>
-                <p>Max Temp: ${daily.temperature_2m_max[i] ?? 'N/A'}${dailyUnits?.temperature_2m_max ?? '°C'}</p>
-                <p>Min Temp: ${daily.temperature_2m_min[i] ?? 'N/A'}${dailyUnits?.temperature_2m_min ?? '°C'}</p>
-                <p>Condition: ${getWeatherDescription(daily.weather_code[i])}</p>
-                ${daily.sunrise && daily.sunrise[i] ? `<p>Sunrise: ${new Date(daily.sunrise[i]).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})}</p>` : ''}
-                ${daily.sunset && daily.sunset[i] ? `<p>Sunset: ${new Date(daily.sunset[i]).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})}</p>` : ''}
-              `;
-              forecastDetailsDiv.appendChild(dayDiv);
-            }
-          } else {
-            forecastDetailsDiv.innerHTML = '<p>Forecast data not available.</p>';
-          }
-
-        } catch (err) {
-          console.error('Frontend Error:', err);
-          feedbackDiv.className = 'feedback error';
-          feedbackDiv.textContent = `Error: ${err.message}. Please check your input or try again later.`;
-          weatherDisplayDiv.style.display = 'none';
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to fetch data');
         }
-      });
+
+        placeName.textContent = data.location;
+
+        currentWeatherDetails.innerHTML = `
+          <div class="weather-item"><strong>Temperature:</strong><span>${data.current.temperature} °C</span></div>
+          <div class="weather-item"><strong>Weather:</strong><span>${getWeatherDescription(data.current.weathercode)}</span></div>
+        `;
+
+        forecastDetails.innerHTML = data.forecast.map(day => `
+          <div class="forecast-day">
+            <div class="date">${day.date}</div>
+            <p><strong>Max:</strong> ${day.temp_max} °C</p>
+            <p><strong>Min:</strong> ${day.temp_min} °C</p>
+            <p><strong>Condition:</strong> ${getWeatherDescription(day.weathercode)}</p>
+          </div>
+        `).join('');
+
+        feedback.style.display = 'none';
+        weatherDisplay.style.display = 'block';
+      } catch (error) {
+        feedback.className = 'feedback error';
+        feedback.textContent = `Error: ${error.message}`;
+      }
     });
   </script>
 </body>
 </html>
-
